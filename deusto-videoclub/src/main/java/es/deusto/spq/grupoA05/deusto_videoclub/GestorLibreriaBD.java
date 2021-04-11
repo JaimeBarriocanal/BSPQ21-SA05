@@ -18,7 +18,6 @@ public class GestorLibreriaBD extends DataBaseManager{
 	
 	/**
 	 * Acceder a la clase padre y crear objeto
-	 * @param dbName
 	 */
 	public GestorLibreriaBD(String dbName) {			
 		super(dbName);
