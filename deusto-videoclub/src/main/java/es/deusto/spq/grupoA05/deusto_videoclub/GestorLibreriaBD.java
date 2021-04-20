@@ -50,7 +50,7 @@ public class GestorLibreriaBD extends DataBaseManager{
 	 * @param usr
 	 * @return boolean
 	 */
-	public static boolean inicioSesion(User usr) {
+	public static boolean inicioSesion(Usuario usr) {
 		boolean inicioCorrecto = false;
 		try {
 			if(usr != null) {
@@ -88,7 +88,7 @@ public class GestorLibreriaBD extends DataBaseManager{
 	 * @param usr
 	 * @return boolean
 	 */
-	public static boolean admin(User usr) {
+	public static boolean admin(Usuario usr) {
 		boolean inicioCorrecto = false;
 		try {
 			if(usr != null) {
@@ -138,7 +138,7 @@ public class GestorLibreriaBD extends DataBaseManager{
 		return 0;
 	}
 
-	public static int registrarUsuario(User usuario) {		
+	public static int registrarUsuario(Usuario usuario) {		
 		try {
 			if(usuario != null) {
 				//COMPROBAR QUE NO EXISTE YA UN USUARIO CON ESE EMAIL O USERNAME.
