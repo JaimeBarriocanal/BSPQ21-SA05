@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -86,7 +85,7 @@ public class Login extends JFrame {
 		btnNuevoUsuario.setBounds(308, 390, 148, 27);
 		btnNuevoUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//new VentanaNuevoJugador().setVisible(true);
+				new NuevoUsuario().setVisible(true);
 				Login.this.setVisible(false);
 
 			}
