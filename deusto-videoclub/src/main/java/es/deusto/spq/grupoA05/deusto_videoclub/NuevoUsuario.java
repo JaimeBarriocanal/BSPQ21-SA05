@@ -85,7 +85,7 @@ public class NuevoUsuario extends JFrame {
 		contentPane.add(lblNombre);
 
 		JLabel label_2 = new JLabel("Contrase\u00F1a:");
-		label_2.setBounds(251, 291, 85, 27);
+		label_2.setBounds(251, 282, 85, 18);
 		contentPane.add(label_2);
 
 		JButton btnCrearNuevoUsuario = new JButton("Crear nuevo usuario");
@@ -142,7 +142,7 @@ public class NuevoUsuario extends JFrame {
 		});
 
 		JLabel lblRepetirContrasea = new JLabel("Repetir contrase\u00F1a:");
-		lblRepetirContrasea.setBounds(251, 349, 127, 27);
+		lblRepetirContrasea.setBounds(251, 347, 127, 18);
 		contentPane.add(lblRepetirContrasea);
 
 		JLabel label_3 = new JLabel("");
@@ -150,7 +150,7 @@ public class NuevoUsuario extends JFrame {
 		contentPane.add(label_3);
 
 		passwordField = new JPasswordField();
-		passwordField.setBounds(251, 321, 265, 27);
+		passwordField.setBounds(251, 310, 265, 27);
 		contentPane.add(passwordField);
 
 		passwordField_1 = new JPasswordField();
@@ -162,7 +162,7 @@ public class NuevoUsuario extends JFrame {
 				}
 			}
 		});
-		passwordField_1.setBounds(251, 380, 265, 27);
+		passwordField_1.setBounds(251, 375, 265, 27);
 		contentPane.add(passwordField_1);
 
 		JLabel lblEmail = new JLabel("Email:");
@@ -175,12 +175,12 @@ public class NuevoUsuario extends JFrame {
 		contentPane.add(textField_1);
 
 		JLabel lblCdigoPostal = new JLabel("Código postal:");
-		lblCdigoPostal.setBounds(251, 226, 155, 27);
+		lblCdigoPostal.setBounds(251, 217, 155, 18);
 		contentPane.add(lblCdigoPostal);
 
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(251, 261, 265, 27);
+		textField_2.setBounds(251, 245, 265, 27);
 
 		textField_2.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent ke) {
