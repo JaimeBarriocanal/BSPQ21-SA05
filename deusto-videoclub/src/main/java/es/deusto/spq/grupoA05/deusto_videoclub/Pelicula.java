@@ -15,7 +15,7 @@ public class Pelicula {
 
 	
 	public Pelicula(String titulo, String director, String genero, String sinopsis, String estado,
-			double precio2, int duracion) {
+			double precio, int duracion) {
 		super();
 		this.id = contador++;
 		this.titulo = titulo;
@@ -23,7 +23,7 @@ public class Pelicula {
 		this.genero = genero;
 		this.sinopsis = sinopsis;
 		this.estado = estado;
-		this.precio = precio2;
+		this.precio = precio;
 		this.duracion = duracion;
 	}
 	
@@ -55,11 +55,11 @@ public class Pelicula {
 		this.titulo = titulo;
 	}
 
-	public String getdirector() {
+	public String getDirector() {
 		return director;
 	}
 
-	public void setdirector(String director) {
+	public void setDirector(String director) {
 		this.director = director;
 	}
 
@@ -79,11 +79,11 @@ public class Pelicula {
 		this.sinopsis = sinopsis;
 	}
 
-	public String getestado() {
+	public String getEstado() {
 		return estado;
 	}
 
-	public void setestado(String estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 
@@ -95,11 +95,11 @@ public class Pelicula {
 		this.precio = precio;
 	}
 
-	public int getduracion() {
+	public int getDuracion() {
 		return duracion;
 	}
 
-	public void setduracion(int duracion) {
+	public void setDuracion(int duracion) {
 		this.duracion = duracion;
 	}
 

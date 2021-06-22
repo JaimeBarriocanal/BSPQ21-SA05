@@ -138,6 +138,14 @@ public class GestorLibreriaBD extends DataBaseManager{
 		return 0;
 	}
 
+	/** Metodo que registra un usuario en la base de datos
+	 * @param usuario  Usuario que se desea registrar en la BD
+	 * @return  Codigo segun resultado. 
+	 * 0 = Error interno, no se ha conseguido guardar el usuario
+	 * 1 = Usuario registrado con exito
+	 * 2 = Direccion de email ya en uso
+	 * 3 = nombre de usuario ya en uso.
+	 */
 	public static int registrarUsuario(Usuario usuario) {		
 		try {
 			if(usuario != null) {
@@ -178,6 +186,210 @@ public class GestorLibreriaBD extends DataBaseManager{
 			LOGGER.getLOGGER().log(Level.WARNING,ex.getMessage());
 		}
 		return 0; //<-- Codigo 0: algun error interno, no se ha podido registrar el usuario.
+	}
+	
+	/**
+	 * Metodo que borra un usuario de la base de datos
+	 * @param usuario
+	 * @return boolean
+	 */
+	public static boolean borrarUsuario(Usuario usuario) {
+		boolean ok = false;		
+		try {
+			if(usuario != null && !usuario.getEmail().equals("admin")) {
+				String sent = "delete from usuario where username='" + usuario.getUsername() + "'";
+				Statement statement = gbd.getStatement();
+				ok = statement.execute(sent);
+				gbd.releaseStatement(statement);
+				ok = true;
+				return ok;
+			}else {
+				throw new Exception("No se ha podido borrar el usuario");
+			}
+			
+		} catch (Exception ex) {
+			LOGGER.getLOGGER().log(Level.WARNING,ex.getMessage());
+		}			
+		return ok;
+	}
+
+
+	/** Metodo que guarda un libro en la base de datos
+	 * @param libro Libro que se desea guardar en la BD
+	 * @return  Codigo segun resultado. 
+	 * 0 = Error interno, no se ha conseguido guardar el libro
+	 * 1 = Libro guardado con exito
+	 * 2 = El libro ya existe en la BD
+	 */
+	public static int guardarPelicula(Pelicula pelicula) {
+		String sent;
+		Statement statement;
+		ResultSet rs;		
+		try {
+			if(pelicula != null) {	
+				//COMPROBAR QUE NO EXISTA YA LA PELÍCULA EN LA BD.	
+				sent = "select * from pelicula where titulo='" + pelicula.getTitulo() + "'";
+				statement = gbd.getStatement();
+				rs = statement.executeQuery(sent);
+			    if (rs.next()) {
+			    	System.out.println( "ERROR: El titulo ya esta registrado");
+			    	rs.close();
+					gbd.releaseStatement(statement);
+			    	return 2; //<-- Codigo 2: la película ya existe en la BD		    	
+			    }else {
+			    	//GUARDAR PELICULA...
+			    	int id_pelicula = getNewID("pelicula") + 1;
+			    	try {
+						statement.executeUpdate("INSERT INTO libro"
+				                + "(id_pelicula, titulo, director, genero, sinopsis, estado, precio, duracion) VALUES"
+				                + "("+ id_pelicula + ",'" + pelicula.getTitulo() + "','" + pelicula.getDirector() + "'," 
+				                + pelicula.getGenero() + "," + pelicula.getSinopsis() + ",'" + pelicula.getEstado() 
+				                + "','" + pelicula.getPrecio() + "','" + pelicula.getDuracion() +"')");
+						rs.close();
+						gbd.releaseStatement(statement);
+						return 1; //<-- Codigo 1: Película guardada correctamente
+					} catch (SQLException e) {
+						LOGGER.getLOGGER().log(Level.WARNING,e.getMessage());
+					}			    
+			    }  
+			}else{
+				throw new Exception("La pelicula recibida es nula");
+			}
+		} catch (Exception ex) {
+			System.out.println("Exception: " + ex.getMessage());
+			LOGGER.getLOGGER().log(Level.WARNING,ex.getMessage());
+		}
+		return 0; //<-- Codigo 0: algun error interno, no se ha podido guardar la película.
+	}
+	
+	/** Metodo que borra un libro de la base de datos
+	 * @param libro 
+	 * @return boolean
+	 */
+	public static boolean borrarPelicula(Pelicula pelicula) {
+        boolean ok = false;
+        
+    	try {
+    		if(pelicula != null) {
+    			String sent = "delete from pelicula where nombre ='" + pelicula.getTitulo() + "'";
+                Statement statement = gbd.getStatement();
+                ok = statement.execute(sent);
+                gbd.releaseStatement(statement);
+                ok = true;
+                return ok;
+            }else {
+            	throw new Exception("El usuario recibido es nulo");
+            }
+            
+        } catch (Exception ex) {
+            System.err.println("Exception: " + ex.getMessage());
+        }                
+        return ok;
+    }
+	
+
+	/**
+	 * Metodo que obtiene una lista de las películas que hay actualmente en la base de datos
+	 * @return List
+	 */
+	public static List<Pelicula> obtenerPeliculas(){
+		ArrayList<Pelicula> peliculas = new ArrayList<>();
+		try {
+			String Query = "select * from pelicula";
+			Statement statement = gbd.getStatement();
+			ResultSet rs = statement.executeQuery(Query);
+			while(rs.next()) {
+				String titulo = rs.getString("titulo");
+				String director = rs.getString("director");
+				String genero = rs.getString("genero");
+				String sinopsis = rs.getString("sinopsis");
+				String estado = rs.getString("sinopsis");
+				double precio = rs.getDouble("venta");
+				int duracion = rs.getInt("genero");
+				
+				Pelicula p = new Pelicula(titulo,director,genero, sinopsis, estado, precio, duracion);
+				peliculas.add(p);
+			}
+		} catch (SQLException e) {
+			LOGGER.getLOGGER().log(Level.WARNING,e.getMessage());
+		}
+		return peliculas;	
+	}
+	
+	/**
+	 * Metodo que realiza la busqueda de una o más películas en base de datos 
+	 * @param search
+	 * @param filtrogenero
+	 * @return
+	 */
+	public static List<Pelicula> searchPeliculas(String search, String filtrogenero){
+		ArrayList<Pelicula> peliculas = new ArrayList<>();
+		String[] busquedaSplit = search.split(" ");
+		String filtroCaps = filtrogenero.toUpperCase();
+		try {
+			if(!search.equals("")){
+				// Buscar por titulo
+				for(String s : busquedaSplit) {
+					String Query = "";
+					if(filtroCaps.equals("TODOS")) {
+						Query = "select * from pelicula where titulo='" + s +"'";
+					}else {
+						Query = "select * from pelicula where titulo='" + s +"' and genero='"+ filtroCaps +"'";
+					}
+					
+					Statement statement = gbd.getStatement();
+					ResultSet rs = statement.executeQuery(Query);
+					while(rs.next()) {
+						String titulo = rs.getString("titulo");
+						String director = rs.getString("director");
+						String genero = rs.getString("genero");
+						String sinopsis = rs.getString("sinopsis");
+						String estado = rs.getString("estado");
+						double precio = rs.getDouble("precio");
+						int duracion = rs.getInt("duracion");
+						
+						Pelicula p = new Pelicula(titulo, director, genero, sinopsis,
+								estado, precio, duracion);
+						peliculas.add(p);
+					}
+					rs.close();
+					gbd.releaseStatement(statement);
+				}
+				
+				// Buscar por director
+				for(String s : busquedaSplit) {
+					String Query = "";
+					if(filtroCaps.equals("TODOS")) {
+						Query = "select * from pelicula where autor='" + s +"'";
+					}else {
+						Query = "select * from pelicula where autor='" + s +"' and genero='"+ filtroCaps +"'";
+					} 
+					Statement statement = gbd.getStatement();
+					ResultSet rs = statement.executeQuery(Query);
+					while(rs.next()) {
+						String titulo = rs.getString("titulo");
+						String director = rs.getString("director");
+						String genero = rs.getString("genero");
+						String sinopsis = rs.getString("sinopsis");
+						String estado = rs.getString("estado");
+						double precio = rs.getDouble("precio");
+						int duracion = rs.getInt("duracion");
+						
+						Pelicula p = new Pelicula(titulo, director, genero, sinopsis,
+								estado, precio, duracion);
+						peliculas.add(p);
+					}
+					rs.close();
+					gbd.releaseStatement(statement);
+				}
+			}else {
+				throw new Exception("Busqueda vacia");
+			}
+			
+		} catch (Exception e) {
+			LOGGER.getLOGGER().log(Level.WARNING,e.getMessage());
+		}
+		return peliculas;	
 	}
 	
 	
