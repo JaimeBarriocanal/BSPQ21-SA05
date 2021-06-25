@@ -4,7 +4,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import es.deusto.spq.grupoA05.deusto_videoclub.GestorLibreriaBD;
+import es.deusto.spq.grupoA05.deusto_videoclub.GestorVideoclubBD;
 import es.deusto.spq.grupoA05.deusto_videoclub.Prop;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.net.URI;
  * Main class.
  *
  */
-public class LibreriaManager {
+public class VideoclubManager {
     // Base URI the Grizzly HTTP server will listen on
     public static String BASE_URI;
 
@@ -43,7 +43,7 @@ public class LibreriaManager {
 //    	String hostname = args[0];
 //		String port = args[1];
 		// Activar conexion a BD
-		GestorLibreriaBD.iniciarGestor();
+		GestorVideoclubBD.iniciarGestor();
 		// Iniciar referencia al archivo properties
 		Prop.iniciarProp();
 		// Activar el servidor
@@ -51,7 +51,7 @@ public class LibreriaManager {
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
         System.in.read();
-        GestorLibreriaBD.finalizar();
+        GestorVideoclubBD.finalizar();
         server.stop();
     }
 }

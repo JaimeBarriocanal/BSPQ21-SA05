@@ -9,15 +9,15 @@ import java.util.logging.Level;
 
 
 
-public class GestorLibreriaBD extends DataBaseManager{
+public class GestorVideoclubBD extends DataBaseManager{
 	
-	static GestorLibreriaBD gbd;
-	private static final LoggerDeusto LOGGER = new LoggerDeusto(GestorLibreriaBD.class.getName(), 1);
+	static GestorVideoclubBD gbd;
+	private static final LoggerDeusto LOGGER = new LoggerDeusto(GestorVideoclubBD.class.getName(), 1);
 	
 	/**
 	 * Acceder a la clase padre y crear objeto
 	 */
-	public GestorLibreriaBD(String dbName) {			
+	public GestorVideoclubBD(String dbName) {			
 		super(dbName);
 	}
 	
@@ -26,7 +26,7 @@ public class GestorLibreriaBD extends DataBaseManager{
 	 */
 	public static void iniciarGestor() {
 		Prop.iniciarProp();
-		gbd = new GestorLibreriaBD(Prop.prop.getProperty("db.path"));
+		gbd = new GestorVideoclubBD(Prop.prop.getProperty("db.path"));
 	}
 
 	/**
