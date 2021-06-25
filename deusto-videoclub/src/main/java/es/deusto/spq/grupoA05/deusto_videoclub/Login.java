@@ -119,9 +119,9 @@ public class Login extends JFrame {
 					JOptionPane.showMessageDialog(null, "Debe rellenar todos los datos");
 				} else {
 					try {
-						WebTarget libreriaWebTarget = webTarget.path("/iniciosesion");
-						System.out.println(libreriaWebTarget.getUri());
-						Invocation.Builder invocationBuilder = libreriaWebTarget.request(MediaType.APPLICATION_JSON);
+						WebTarget videoclubWebTarget = webTarget.path("/iniciosesion");
+						System.out.println(videoclubWebTarget.getUri());
+						Invocation.Builder invocationBuilder = videoclubWebTarget.request(MediaType.APPLICATION_JSON);
 
 						user.setEmail(usuario);
 						user.setPassword(passwd);
