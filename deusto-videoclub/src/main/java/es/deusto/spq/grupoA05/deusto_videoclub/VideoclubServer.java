@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 
-import es.deusto.spq.grupoA05.deusto_videoclub.GestorLibreriaBD;
+import es.deusto.spq.grupoA05.deusto_videoclub.GestorVideoclubBD;
 import es.deusto.spq.grupoA05.deusto_videoclub.Pelicula;
 import es.deusto.spq.grupoA05.deusto_videoclub.Usuario;
 
@@ -23,7 +23,7 @@ import es.deusto.spq.grupoA05.deusto_videoclub.Usuario;
  */
 @Path("/deusto-booking")
 @Produces(MediaType.APPLICATION_JSON)
-public class LibreriaServer {
+public class VideoclubServer {
 	/**
 	 * Metodo que inicia sesion recibiendo un usuario desde el cliente
 	 * @param usr el usuario que esta tratando de iniciar sesion
@@ -34,7 +34,7 @@ public class LibreriaServer {
     @Consumes(MediaType.APPLICATION_JSON)
 	public Response inicioSesion(Usuario usr) {
  
-    	if(GestorLibreriaBD.inicioSesion(usr)) {
+    	if(GestorVideoclubBD.inicioSesion(usr)) {
     		return Response.ok().build();
     	}else {
     		return Response.serverError().build();
@@ -55,7 +55,7 @@ public class LibreriaServer {
 		 * 2 = Direccion de email ya en uso
 		 * 3 = nombre de usuario ya en uso.
 		 * */
-    	switch(GestorLibreriaBD.registrarUsuario(usr)) {
+    	switch(GestorVideoclubBD.registrarUsuario(usr)) {
     		case 0:
     			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No se ha podido guardar el usuario").build();
     		case 1:
@@ -79,7 +79,7 @@ public class LibreriaServer {
     @Consumes(MediaType.APPLICATION_JSON)
 	public Response admin(Usuario usr) {
  
-    	if(GestorLibreriaBD.admin(usr)) {
+    	if(GestorVideoclubBD.admin(usr)) {
     		return Response.ok().build();
     	}else {
     		return Response.accepted().build();
@@ -96,7 +96,7 @@ public class LibreriaServer {
     @Consumes(MediaType.APPLICATION_JSON)
 	public Response borrarUsuario(Usuario usr) {
  
-    	if(GestorLibreriaBD.borrarUsuario(usr)) {
+    	if(GestorVideoclubBD.borrarUsuario(usr)) {
     		return Response.ok().build();
     	}else {
     		return Response.serverError().build();
@@ -113,7 +113,7 @@ public class LibreriaServer {
     @Consumes(MediaType.APPLICATION_JSON)
 	public Response borrarPelicula(Pelicula peli) {
  
-    	if(GestorLibreriaBD.borrarPelicula(peli)) {
+    	if(GestorVideoclubBD.borrarPelicula(peli)) {
     		return Response.ok().build();
     	}else {
     		return Response.serverError().build();
@@ -133,7 +133,7 @@ public class LibreriaServer {
 		 * 1 = Libro guardado con exito
 		 * 2 = Titulo ya existente
 		 * */
-    	switch(GestorLibreriaBD.guardarPelicula(peli)) {
+    	switch(GestorVideoclubBD.guardarPelicula(peli)) {
     		case 0:
     			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("No se ha podido guardar la pelicula").build();
     		case 1:
@@ -153,7 +153,7 @@ public class LibreriaServer {
     @Path("/obtenerpeliculas")
     @Produces(MediaType.APPLICATION_JSON)
 	public List<Pelicula> obtenerPeliculas() {
-    	List<Pelicula> peliculasBD = GestorLibreriaBD.obtenerPeliculas();    	
+    	List<Pelicula> peliculasBD = GestorVideoclubBD.obtenerPeliculas();    	
     	GenericEntity<List<Pelicula>>  entity = new GenericEntity<List<Pelicula>>(peliculasBD){};
     	return entity.getEntity(); 
 	}
@@ -169,7 +169,7 @@ public class LibreriaServer {
     @Produces(MediaType.APPLICATION_JSON)
 	public List<Pelicula> searchPeliculas(@PathParam("busqueda") String busqueda, @PathParam("filtrogenero") String filtrogenero) {
     	System.out.println("[Client] Busqueda de Peliculas: " + busqueda +"| Filtro: "+ filtrogenero.toUpperCase());
-    	List<Pelicula> peliculasBD = GestorLibreriaBD.searchPeliculas(busqueda, filtrogenero);    	
+    	List<Pelicula> peliculasBD = GestorVideoclubBD.searchPeliculas(busqueda, filtrogenero);    	
     	GenericEntity<List<Pelicula>>  entity = new GenericEntity<List<Pelicula>>(peliculasBD){};
     	return entity.getEntity(); 
 	}
