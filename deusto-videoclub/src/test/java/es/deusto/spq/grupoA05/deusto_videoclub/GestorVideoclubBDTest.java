@@ -2,14 +2,22 @@ package es.deusto.spq.grupoA05.deusto_videoclub;
 
 import static org.junit.Assert.*;
 
-import java.time.LocalDate;
+
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.databene.contiperf.*;
+
+
+import org.databene.contiperf.PerfTest;
+import org.databene.contiperf.Required;
 import org.databene.contiperf.junit.ContiPerfRule;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
 
 @PerfTest(invocations = 5)
 @Required(max = 1200, average = 250)
@@ -88,7 +96,7 @@ public class GestorVideoclubBDTest{
 	public void testGuardarPelicula() {
 		//Test
 		assertEquals(0, GestorVideoclubBD.guardarPelicula(null));
-		assertEquals(0, GestorVideoclubBD.guardarPelicula(librError));
+		assertEquals(0, GestorVideoclubBD.guardarPelicula(peliError));
 		assertEquals(1, GestorVideoclubBD.guardarPelicula(peli1)); //Libro guardado
 		assertEquals(2, GestorVideoclubBD.guardarPelicula(peli1)); //Debe dar fallo de titulo
 		//Limpiar BD
@@ -115,8 +123,8 @@ public class GestorVideoclubBDTest{
 		//Test
 		// Buscar sin filtro
 		GestorVideoclubBD.searchPeliculas("", "Todos");
-		assertNotEquals("", GestorVideoclubBD.searchPeliculas(lbr1.getTitulo().toString(), "Todos"));
-		assertNotEquals("", GestorVideoclubBD.searchPeliculas(lbr1.getDirector().toString(), "Todos"));
+		assertNotEquals("", GestorVideoclubBD.searchPeliculas(peli1.getTitulo().toString(), "Todos"));
+		assertNotEquals("", GestorVideoclubBD.searchPeliculas(peli1.getDirector().toString(), "Todos"));
 
 		// Buscar con filtro
 		assertNotEquals("", GestorVideoclubBD.searchPeliculas(peli1.getTitulo().toString(), peli1.getGenero()));
@@ -149,11 +157,4 @@ public class GestorVideoclubBDTest{
 		GestorVideoclubBD.finalizar();
 	}
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite(GestorVideoclubBDTest.class.getName());
-		//$JUnit-BEGIN$
-
-		//$JUnit-END$
-		return suite;
-	}
 }
