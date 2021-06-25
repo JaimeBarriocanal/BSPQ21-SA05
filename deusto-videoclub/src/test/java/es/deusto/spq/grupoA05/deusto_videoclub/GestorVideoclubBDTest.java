@@ -34,9 +34,8 @@ public class GestorVideoclubBDTest{
 		usr3 = new Usuario("utest", "noregistrado", "noregistrado@deusto.es");
 		peli1 = new Pelicula("Titulo", "director", "aventuras", "sinposis", "VENTA", 10, 120);
 		peli2 = new Pelicula("Titulo", "director", "aventuras", "sinposis", "VENTA", 10, 120);
-		peliError = new Pelicula("NewTitulo", "';", "", "", "", "", 0);
-		venta = new VentaLibro(usr1.getEmail(), lbr1.getTitulo(), lbr1.getPrecio(), 1, "FISICO");
-		alquiler = new AlquilerLibro(usr1.getEmail(), lbr1.getTitulo(), lbr1.getPrecio());
+		peliError = new Pelicula("NewTitulo", "';", "", "", "", 0, 0);
+	
 	}
 
 	@Test
