@@ -5,22 +5,25 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 
@@ -29,14 +32,17 @@ public class NuevoUsuario extends JFrame {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 1L;	
+	
+	private WebTarget webTarget;
 	private JPanel contentPane;
 	public final JTextField textField;
 	public final JPasswordField passwordField;
 	public final JPasswordField passwordField_1;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private final LoggerDeusto LOGGER = new LoggerDeusto(Login.class.getName(), 2);
+
 
 	/**
 	 * Launch the application.
@@ -90,45 +96,56 @@ public class NuevoUsuario extends JFrame {
 
 		JButton btnCrearNuevoUsuario = new JButton("Crear nuevo usuario");
 		btnCrearNuevoUsuario.setBounds(291, 417, 176, 27);
-		/*
-		 * btnCrearNuevoUsuario.addActionListener(new ActionListener() { -Configurar BD
-		 * y logger public void actionPerformed(ActionEvent e) {
-		 * 
-		 * GestorBD g = new GestorBD(); Usuario user = new Usuario(); String usuario =
-		 * new String(textField.getText()); String pass = new
-		 * String(passwordField.getPassword()); String passCon = new
-		 * String(passwordField_1.getPassword());
-		 * 
-		 * if (usuario.equals("") || pass.equals("") || passCon.equals("")) {
-		 * 
-		 * JOptionPane.showMessageDialog(null, "Rellene todos los campos");
-		 * 
-		 * } else {
-		 * 
-		 * if (pass.equals(passCon)) {
-		 * 
-		 * user.setUsuario(textField.getText()); user.setPassword(pass);
-		 * 
-		 * try { g.conectar(); g.guardar(user); g.desconectar();
-		 * 
-		 * JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
-		 * LoggerDeusto.log( Level.INFO, "Usuario registrado", null );
-		 * 
-		 * new Login().setVisible(true); NuevoUsuario.this.setVisible(false);
-		 * 
-		 * } catch (SQLException e1) { e1.printStackTrace();
-		 * JOptionPane.showMessageDialog(null, "Error en el registro" + e1);
-		 * LoggerDeusto.log( Level.INFO, "Error al registrar usuario", e1 ); } catch
-		 * (ClassNotFoundException e1) { e1.printStackTrace();
-		 * JOptionPane.showMessageDialog(null, "Error en el registro" + e1);
-		 * LoggerDeusto.log( Level.INFO, "Error al registrar usuario", e1 ); }
-		 * 
-		 * } else {
-		 * 
-		 * JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden"); } }
-		 * 
-		 * } });
-		 */
+		btnCrearNuevoUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Usuario user = new Usuario();
+				String usuario = new String(textField.getText());
+				String mail = new String(textField_1.getText());
+				int cpos = Integer.parseInt(textField_2.getText());
+				String pass = new String(passwordField.getPassword());
+				String passCon = new String(passwordField_1.getPassword());
+
+				if (usuario.equals("") || mail.equals("") || textField_2.getText().equals("") || pass.equals("") || passCon.equals("") ) {
+					JOptionPane.showMessageDialog(null, "Rellene todos los campos");
+				} else {
+					if (pass.equals(passCon)) {
+						
+						try {
+							WebTarget videoclubWebTarget = webTarget.path("/registro");
+							Invocation.Builder invocationBuilder = videoclubWebTarget.request(MediaType.APPLICATION_JSON);
+							
+							user.setUsername(usuario);
+							user.setPassword(pass);
+							user.setEmail(mail);
+							user.setCP(cpos);
+							
+							Response response = invocationBuilder.post(Entity.entity(user, MediaType.APPLICATION_JSON));
+							
+							if (response.getStatus() == Status.OK.getStatusCode()) {
+								new Buscador();
+								NuevoUsuario.this.setVisible(false);
+							} else {
+								String readResponse = response.readEntity(String.class);
+								throw new Exception(readResponse);
+							}
+							
+							JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
+							
+						}catch(javax.ws.rs.ProcessingException conExc) {
+							String errorMessage = "No se ha podido establecer conexion con el servidor";
+							JOptionPane.showMessageDialog(contentPane, errorMessage, "Error de conexion", JOptionPane.ERROR_MESSAGE);
+							LOGGER.getLOGGER().log(Level.WARNING, errorMessage);
+						}catch(Exception exc) {
+							JOptionPane.showMessageDialog(contentPane, exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+							LOGGER.getLOGGER().log(Level.WARNING, exc.getMessage());
+						}
+						
+					} else {
+						JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+					}
+				}
+			}
+		});
 		contentPane.add(btnCrearNuevoUsuario);
 
 		JButton btnAtras = new JButton("Atr\u00E1s");
@@ -193,12 +210,5 @@ public class NuevoUsuario extends JFrame {
 		});
 
 		contentPane.add(textField_2);
-
-		/*
-		 * Imagen de fondo JLabel lblNewLabel_1 = new JLabel(""); ImageIcon iid = new
-		 * ImageIcon(""); Image cuerpo = iid.getImage(); lblNewLabel_1.setIcon(new
-		 * ImageIcon(cuerpo)); lblNewLabel_1.setBounds(0, 0, 793, 456);
-		 * contentPane.add(lblNewLabel_1);
-		 */
 	}
 }
