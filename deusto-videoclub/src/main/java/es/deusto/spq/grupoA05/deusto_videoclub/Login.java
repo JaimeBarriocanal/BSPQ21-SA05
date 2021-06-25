@@ -5,31 +5,41 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.SQLException;
 import java.util.logging.Level;
 
 public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+
+	private Client client;
+	private WebTarget webTarget;
+
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	private final LoggerDeusto LOGGER = new LoggerDeusto(Login.class.getName(), 2);
 
 	/**
 	 * Launch the application.
@@ -51,6 +61,11 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+		// Iniciar cliente
+		client = ClientBuilder.newClient();
+		Prop.iniciarProp();
+		webTarget = client.target(String.format(Prop.prop.getProperty("server.url")));
+		
 		this.setTitle("Inicio de sesión");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 799, 491);
@@ -94,57 +109,54 @@ public class Login extends JFrame {
 
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.setBounds(281, 332, 200, 37);
-		/*btnEntrar.addActionListener(new ActionListener() {
+		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				GestorBD g = new GestorBD();
 				Usuario user = new Usuario();
-
 				String usuario = new String(textField.getText());
 				String passwd = new String(passwordField.getPassword());
 
 				if (usuario.isEmpty() && passwd.isEmpty()) {
-
 					JOptionPane.showMessageDialog(null, "Debe rellenar todos los datos");
-
 				} else {
-
-					user.setUsuario(usuario);
-					user.setPassword(passwd);
-					
 					try {
-						g.conectar();
-						
-					} catch (ClassNotFoundException e2) {
-						e2.printStackTrace();
-					} catch (SQLException e2) {
-						e2.printStackTrace();
-					}
+						WebTarget libreriaWebTarget = webTarget.path("/iniciosesion");
+						System.out.println(libreriaWebTarget.getUri());
+						Invocation.Builder invocationBuilder = libreriaWebTarget.request(MediaType.APPLICATION_JSON);
 
-					try {
-						if(g.inciarSesion(user) == true) {
-							
-							g.inciarSesion(user);
-							g.desconectar();
-							
-							LoggerDeusto.log(Level.INFO, "Sesión iniciada ", null);			-Logger
-							
-							new VentanaInicio().setVisible(true);
+						user.setEmail(usuario);
+						user.setPassword(passwd);
+						Response response = invocationBuilder.post(Entity.entity(user, MediaType.APPLICATION_JSON));
+
+						if (response.getStatus() == Status.OK.getStatusCode()) {
+
+							WebTarget admin = webTarget.path("/admin");
+							System.out.println(admin.getUri());
+							Invocation.Builder invocationBuilderAdmin = admin.request(MediaType.APPLICATION_JSON);
+							Response responseAdmin = invocationBuilderAdmin
+									.post(Entity.entity(user, MediaType.APPLICATION_JSON));
+							if (responseAdmin.getStatus() == Status.OK.getStatusCode()) {
+								// new MenuAdministrador(); Abrir ventana de admin
+							} else {
+								new Buscador();
+							}
 							Login.this.setVisible(false);
-						}else {
-							JOptionPane.showMessageDialog(null, "El usuario o la contraseña son incorrectos");
+						} else {
+							throw new Exception("Datos incorrectos");
 						}
-						
-
-					} catch (SQLException e1) {
-
-						e1.printStackTrace();
-						JOptionPane.showMessageDialog(null, "Error al iniciar sesión [" + e1 + "]");
+					} catch (javax.ws.rs.ProcessingException conExc) {
+						String errorMessage = "No se ha podido establecer conexion con el servidor";
+						JOptionPane.showMessageDialog(contentPane, errorMessage, "Error de conexion",
+								JOptionPane.ERROR_MESSAGE);
+						LOGGER.getLOGGER().log(Level.WARNING, errorMessage);
+					} catch (Exception exc) {
+						String errorMessage = "Se ha producido un error inesperado";
+						JOptionPane.showMessageDialog(contentPane, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+						LOGGER.getLOGGER().log(Level.WARNING, exc.getMessage());
 					}
 
 				}
 			}
-		});*/
+		});
 		contentPane.add(btnEntrar);
 
 		passwordField = new JPasswordField();
@@ -158,13 +170,6 @@ public class Login extends JFrame {
 		});
 		passwordField.setBounds(251, 273, 265, 45);
 		contentPane.add(passwordField);
-		
-		/*	Imagen de fondo
-		JLabel lblNewLabel_1 = new JLabel("");
-		ImageIcon iid = new ImageIcon();
-        Image cuerpo = iid.getImage();
-        lblNewLabel_1.setIcon(new ImageIcon(cuerpo));
-		lblNewLabel_1.setBounds(0, 0, 793, 456);
-		contentPane.add(lblNewLabel_1);*/
+
 	}
 }
