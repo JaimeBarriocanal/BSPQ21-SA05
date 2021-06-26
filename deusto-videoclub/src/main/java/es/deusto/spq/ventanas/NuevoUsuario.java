@@ -1,16 +1,18 @@
-package es.deusto.spq.grupoA05.deusto_videoclub;
+package es.deusto.spq.ventanas;
 
 import java.awt.EventQueue;
+import es.deusto.*;
+import es.deusto.spq.clases.Usuario;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -41,7 +43,6 @@ public class NuevoUsuario extends JFrame {
 	public final JPasswordField passwordField_1;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	private final LoggerDeusto LOGGER = new LoggerDeusto(Login.class.getName(), 2);
 
 
 	/**
@@ -94,7 +95,7 @@ public class NuevoUsuario extends JFrame {
 		label_2.setBounds(251, 282, 85, 18);
 		contentPane.add(label_2);
 
-		JButton btnCrearNuevoUsuario = new JButton("Crear nuevo usuario");
+		final JButton btnCrearNuevoUsuario = new JButton("Crear nuevo usuario");
 		btnCrearNuevoUsuario.setBounds(291, 417, 176, 27);
 		btnCrearNuevoUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -131,15 +132,12 @@ public class NuevoUsuario extends JFrame {
 							
 							JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
 							
-						}catch(javax.ws.rs.ProcessingException conExc) {
+						}catch(jakarta.ws.rs.ProcessingException conExc) {
 							String errorMessage = "No se ha podido establecer conexion con el servidor";
 							JOptionPane.showMessageDialog(contentPane, errorMessage, "Error de conexion", JOptionPane.ERROR_MESSAGE);
-							LOGGER.getLOGGER().log(Level.WARNING, errorMessage);
 						}catch(Exception exc) {
 							JOptionPane.showMessageDialog(contentPane, exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-							LOGGER.getLOGGER().log(Level.WARNING, exc.getMessage());
 						}
-						
 					} else {
 						JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
 					}

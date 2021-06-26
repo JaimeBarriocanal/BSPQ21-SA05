@@ -1,6 +1,10 @@
-package es.deusto.spq.grupoA05.deusto_videoclub;
+package es.deusto.spq.clases;
 
+import javax.jdo.annotations.*;
+import javax.jdo.annotations.PersistenceCapable;
 
+@PersistenceCapable
+@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
 public class Usuario {
 	private String id;
 	private String username;

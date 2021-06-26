@@ -1,5 +1,9 @@
-package es.deusto.spq.grupoA05.deusto_videoclub;
+package es.deusto.spq.clases;
 
+import javax.jdo.annotations.*;
+
+@PersistenceCapable
+@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
 public class Pelicula {
 
 	private static int contador = 1;
@@ -27,10 +31,6 @@ public class Pelicula {
 		this.duracion = duracion;
 	}
 	
-	/**Constructor de libro staandar.
-	 * Usado para realizar tests
-	 * 
-	 */
 	public Pelicula() {
 		super();
 		this.id = contador++;

@@ -1,18 +1,16 @@
-package es.deusto.spq.grupoA05.deusto_videoclub;
+package es.deusto.spq.ventanas;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+
+import es.deusto.spq.bd.UsuariosBD;
+import es.deusto.spq.clases.Usuario;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,13 +31,13 @@ public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private Client client;
-	private WebTarget webTarget;
+	Client client = ClientBuilder.newClient();
+	final WebTarget appTarget = client.target("http://localhost:8080/myapp");
+	final WebTarget usersTarget = appTarget.path("usuarios");
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private final LoggerDeusto LOGGER = new LoggerDeusto(Login.class.getName(), 2);
 
 	/**
 	 * Launch the application.
@@ -63,9 +61,7 @@ public class Login extends JFrame {
 	public Login() {
 		// Iniciar cliente
 		client = ClientBuilder.newClient();
-		Prop.iniciarProp();
-		webTarget = client.target(String.format(Prop.prop.getProperty("server.url")));
-		
+
 		this.setTitle("Inicio de sesión");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 799, 491);
@@ -107,54 +103,11 @@ public class Login extends JFrame {
 		});
 		contentPane.add(btnNuevoUsuario);
 
-		JButton btnEntrar = new JButton("Entrar");
+		final JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.setBounds(281, 332, 200, 37);
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Usuario user = new Usuario();
-				String usuario = new String(textField.getText());
-				String passwd = new String(passwordField.getPassword());
-
-				if (usuario.isEmpty() && passwd.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Debe rellenar todos los datos");
-				} else {
-					try {
-						WebTarget videoclubWebTarget = webTarget.path("/iniciosesion");
-						System.out.println(videoclubWebTarget.getUri());
-						Invocation.Builder invocationBuilder = videoclubWebTarget.request(MediaType.APPLICATION_JSON);
-
-						user.setEmail(usuario);
-						user.setPassword(passwd);
-						Response response = invocationBuilder.post(Entity.entity(user, MediaType.APPLICATION_JSON));
-
-						if (response.getStatus() == Status.OK.getStatusCode()) {
-
-							WebTarget admin = webTarget.path("/admin");
-							System.out.println(admin.getUri());
-							Invocation.Builder invocationBuilderAdmin = admin.request(MediaType.APPLICATION_JSON);
-							Response responseAdmin = invocationBuilderAdmin
-									.post(Entity.entity(user, MediaType.APPLICATION_JSON));
-							if (responseAdmin.getStatus() == Status.OK.getStatusCode()) {
-								// new MenuAdministrador(); Abrir ventana de admin
-							} else {
-								new Buscador();
-							}
-							Login.this.setVisible(false);
-						} else {
-							throw new Exception("Datos incorrectos");
-						}
-					} catch (javax.ws.rs.ProcessingException conExc) {
-						String errorMessage = "No se ha podido establecer conexion con el servidor";
-						JOptionPane.showMessageDialog(contentPane, errorMessage, "Error de conexion",
-								JOptionPane.ERROR_MESSAGE);
-						LOGGER.getLOGGER().log(Level.WARNING, errorMessage);
-					} catch (Exception exc) {
-						String errorMessage = "Se ha producido un error inesperado";
-						JOptionPane.showMessageDialog(contentPane, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
-						LOGGER.getLOGGER().log(Level.WARNING, exc.getMessage());
-					}
-
-				}
+				acceder(textField, passwordField);
 			}
 		});
 		contentPane.add(btnEntrar);
@@ -171,5 +124,22 @@ public class Login extends JFrame {
 		passwordField.setBounds(251, 273, 265, 45);
 		contentPane.add(passwordField);
 
+	}
+
+	public void acceder(JTextField nombre, JPasswordField contra) {
+		if (nombre.getText().equals("") || contra.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Debe rellenar todos los datos");
+		}
+		if (nombre.getText().equals("admin")) {
+			BuscadorAdmin ba = new BuscadorAdmin();
+			ba.setVisible(true);
+			dispose();
+		} else {
+			UsuariosBD ubd = new UsuariosBD();
+			ubd.comprobarUsuarios(nombre.getText(), contra.getText().toString());
+			Buscador b = new Buscador();
+			b.setVisible(true);
+			dispose();
+		}
 	}
 }
