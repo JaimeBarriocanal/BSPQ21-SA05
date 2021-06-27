@@ -8,8 +8,6 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
-
-
 import es.deusto.spq.clases.Usuario;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

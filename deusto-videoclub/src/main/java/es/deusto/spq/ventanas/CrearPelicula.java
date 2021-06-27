@@ -4,9 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import es.deusto.spq.clases.Pelicula;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -15,13 +13,10 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 import javax.swing.JButton;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.SQLException;
-import java.util.logging.Level;
 
 public class CrearPelicula extends JFrame {
 
@@ -79,6 +74,9 @@ public class CrearPelicula extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				addPelicula(textField, textField2, textField3, textField4, textField5, textField6, textField7);
+				BuscadorAdmin ba = new BuscadorAdmin();
+				ba.setVisible(true);
+				dispose();
 			}
 		});
 		
@@ -140,7 +138,7 @@ public class CrearPelicula extends JFrame {
 		this.setLocationRelativeTo(null);
 		setResizable(false);
 
-		textField.addKeyListener(new KeyAdapter() {
+		textField7.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -164,7 +162,7 @@ public class CrearPelicula extends JFrame {
 			PersistenceManager pm = pmf.getPersistenceManager();
 			Transaction tx = pm.currentTransaction();
 			int tiempo = Integer.parseInt(duracion.getText().toString());
-			double coste = Integer.parseInt(precio.getText().toString());
+			double coste = Double.parseDouble(precio.getText().toString());
 			System.out.println("Añadiendo película en la BD");
 
 			try {

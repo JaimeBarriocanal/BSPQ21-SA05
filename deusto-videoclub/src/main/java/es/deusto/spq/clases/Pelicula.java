@@ -3,12 +3,12 @@ package es.deusto.spq.clases;
 import javax.jdo.annotations.*;
 
 @PersistenceCapable
-@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
 public class Pelicula {
 
 	private static int contador = 1;
 	
 	private int id;
+	@PrimaryKey
 	private String titulo;
 	private String director;
 	private String genero;

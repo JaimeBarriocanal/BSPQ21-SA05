@@ -15,8 +15,8 @@ public class PreparedData {
     public static PersistenceManager pm = pmf.getPersistenceManager();
     public static Transaction tx = pm.currentTransaction();
 
-    public static Usuario user0 = new Usuario("user0", "1234", "user0@gmail.com", "bilbao", 48000);
-    public static Usuario admin = new Usuario("admin", "1234", "admin@gmail.com", "bilbao", 48000);
+    public static Usuario user0 = new Usuario("user0", "1234", "user0@gmail.com", 48000);
+    public static Usuario admin = new Usuario("admin", "1234", "admin@gmail.com", 48000);
     
     public static Pelicula peli0 = new Pelicula("Prueba", "yo", "tortas", "gente pegandose", "alquilada", 2, 180);
     

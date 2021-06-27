@@ -4,8 +4,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-
 
 import es.deusto.spq.clases.Pelicula;
 import jakarta.ws.rs.client.Client;
@@ -20,12 +18,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JList;
 
 public class Buscador extends JFrame {
@@ -40,8 +34,6 @@ public class Buscador extends JFrame {
 	private JTextField textField;
 	private JScrollPane scrollPane = new JScrollPane();
 	private JList<Pelicula> list;
-
-	// private DefaultTableModel model;
 
 	/**
 	 * Launch the application.
@@ -115,26 +107,4 @@ public class Buscador extends JFrame {
 		});
 
 	}
-
-	/*private void addPeli(List<Pelicula> list) {
-
-		for (Integer i = 0; i < list.size(); i++) {
-
-			String name = list.get(i).getName();
-			String surname = list.get(i).getSurname();
-			String email = list.get(i).getEmail();
-			String degree = list.get(i).getDegree();
-			String course = list.get(i).getCourse();
-			String department = list.get(i).getDepartment();
-			String phone = list.get(i).getPhone();
-			String shirtSize = list.get(i).getShirtSize();
-			Boolean root = list.get(i).isRoot();
-
-			String[] data = { i.toString(), name, surname, email, degree, course, department, phone, shirtSize,
-					root.toString() };
-
-			model.addRow(data);
-
-		}
-	}*/
 }

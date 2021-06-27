@@ -14,8 +14,16 @@ import jakarta.ws.rs.core.MediaType;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -101,10 +109,30 @@ public class BuscadorAdmin extends JFrame {
 		
 		JButton btnNewButton2 = new JButton("Añadir");
 		btnNewButton2.setBounds(185, 412, 85, 21);
+		
+		btnNewButton2.addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CrearPelicula cp = new CrearPelicula();
+				cp.setVisible(true);
+				dispose();
+			}
+		});
+		
 		contentPane.add(btnNewButton2);
+		
+		final String peliculaSeleccionada = list.getSelectedValue().toString();
 		
 		JButton btnBorrar = new JButton("Eliminar");
 		btnBorrar.setBounds(531, 412, 85, 21);
+		
+		btnBorrar.addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				eliminarPeliculaBd(model, peliculaSeleccionada);
+			}
+		});
+		
 		contentPane.add(btnBorrar);
 		this.setLocationRelativeTo(null);
 		setResizable(false);
@@ -119,4 +147,26 @@ public class BuscadorAdmin extends JFrame {
 		});
 
 	}
+	public void eliminarPeliculaBd(ListModel<Pelicula> listModel, String selectedFilm) {
+        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+        PersistenceManager pm = pmf.getPersistenceManager();
+        System.out.println("Eliminando película de la BD");
+        
+        try {
+
+            Query<Pelicula> q = pm.newQuery("SELECT FROM " + Pelicula.class.getName().toLowerCase() + " WHERE titulo== '" + selectedFilm + "'");
+            List<Pelicula> listaPelicula = q.executeList();
+            q.deletePersistentAll(listaPelicula);
+
+            System.out.println("Eliminada película de la Base de Datos");
+
+        } finally {
+            pm.close();
+
+            BuscadorAdmin ba = new BuscadorAdmin();
+            ba.setVisible(true);
+            dispose();
+        }
+    }
+	
 }

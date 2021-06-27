@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import es.deusto.spq.bd.UsuariosBD;
-import es.deusto.spq.clases.Usuario;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
@@ -25,7 +24,6 @@ import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.logging.Level;
 
 public class Login extends JFrame {
 
@@ -59,9 +57,6 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
-		// Iniciar cliente
-		client = ClientBuilder.newClient();
-
 		this.setTitle("Inicio de sesión");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 799, 491);
