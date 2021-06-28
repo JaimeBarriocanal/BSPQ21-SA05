@@ -18,7 +18,7 @@ public class PreparedData {
     public static Usuario user0 = new Usuario("user0", "1234", "user0@gmail.com", 48000);
     public static Usuario admin = new Usuario("admin", "1234", "admin@gmail.com", 48000);
     
-    public static Pelicula peli0 = new Pelicula("Prueba", "yo", "tortas", "gente pegandose", "alquilada", 2, 180);
+    public static Pelicula peli0 = new Pelicula("Prueba", "yo", "acción", "Gran pelea", "alquilada", 2, 180);
     
     
     public static void main(String[] args) {

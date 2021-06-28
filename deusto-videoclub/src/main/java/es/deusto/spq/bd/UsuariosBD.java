@@ -22,7 +22,7 @@ public class UsuariosBD {
         PersistenceManager pm = pmf.getPersistenceManager();
 
         Query<Usuario> q = pm.newQuery(Usuario.class);
-        q.setOrdering("name desc");
+        q.setOrdering("username desc");
 
         List<Usuario> usuarios = q.executeList();
 

@@ -1,9 +1,13 @@
 package es.deusto.spq.ventanas;
 
 import java.awt.EventQueue;
+import java.awt.Font;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import es.deusto.spq.clases.Pelicula;
 import jakarta.ws.rs.client.Client;
@@ -29,8 +33,7 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import javax.swing.JScrollPane;
+
 import javax.swing.JList;
 
 public class BuscadorAdmin extends JFrame {
@@ -42,8 +45,6 @@ public class BuscadorAdmin extends JFrame {
 	final WebTarget pelisTarget = appTarget.path("peliculas");
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JScrollPane scrollPane = new JScrollPane();
 	private JList<Pelicula> list;
 
 
@@ -83,29 +84,53 @@ public class BuscadorAdmin extends JFrame {
 		for (Pelicula pelicula : pelis) {
 			model.addElement(pelicula);
 		}
-		list.setBounds(51, 63, 679, 322);
 		list = new JList<Pelicula>(model);
+		list.setBounds(51, 63, 332, 322);
+		list.setFont(new Font("Tahoma", Font.BOLD, 10));
+		contentPane.add(list);
+		
+		final JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setBounds(521, 82, 159, 20);
+		contentPane.add(lblNewLabel_1);
+		this.setLocationRelativeTo(null);
+		setResizable(false);
+		
+		final JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setBounds(521, 112, 159, 20);
+		contentPane.add(lblNewLabel_2);
+		
+		final JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setBounds(521, 142, 159, 20);
+		contentPane.add(lblNewLabel_3);
+		
+		final JLabel lblNewLabel_4 = new JLabel("");
+		lblNewLabel_4.setBounds(521, 176, 249, 72);
+		contentPane.add(lblNewLabel_4);
+		
+		final JLabel lblNewLabel_5 = new JLabel("");
+		lblNewLabel_5.setBounds(521, 258, 159, 20);
+		contentPane.add(lblNewLabel_5);
+		
+		final JLabel lblNewLabel_6 = new JLabel("");
+		lblNewLabel_6.setBounds(521, 291, 159, 20);
+		contentPane.add(lblNewLabel_6);
+		
+		final JLabel lblNewLabel_7 = new JLabel("");
+		lblNewLabel_7.setBounds(521, 321, 159, 20);
+		contentPane.add(lblNewLabel_7);
+		
+		list.addListSelectionListener(new ListSelectionListener() {		
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				cargarDatos(lblNewLabel_1, lblNewLabel_2, lblNewLabel_3, lblNewLabel_4,
+						lblNewLabel_5, lblNewLabel_6, lblNewLabel_7, list, list.getSelectedIndex());		//añadir jlabel
+			}
+		});
 		
 		
-		JLabel lblNewLabel = new JLabel("Título:");
-		lblNewLabel.setBounds(53, 10, 51, 20);
-		contentPane.add(lblNewLabel);
-
-		textField = new JTextField();
-		textField.setBounds(113, 11, 224, 19);
-		contentPane.add(textField);
-		textField.setColumns(10);
-
-		final JButton btnNewButton = new JButton("Buscar");
-		btnNewButton.setBounds(420, 10, 85, 21);
-		contentPane.add(btnNewButton);
-
-		
-		scrollPane.setBounds(51, 63, 679, 322);
-		contentPane.add(scrollPane);
-		
-		
-		scrollPane.setViewportView(list);
+		JLabel lblTitulo = new JLabel("Título:");
+		lblTitulo.setBounds(420, 80, 51, 20);
+		contentPane.add(lblTitulo);		
 		
 		JButton btnNewButton2 = new JButton("Añadir");
 		btnNewButton2.setBounds(185, 412, 85, 21);
@@ -121,30 +146,43 @@ public class BuscadorAdmin extends JFrame {
 		
 		contentPane.add(btnNewButton2);
 		
-		final String peliculaSeleccionada = list.getSelectedValue().toString();
-		
 		JButton btnBorrar = new JButton("Eliminar");
 		btnBorrar.setBounds(531, 412, 85, 21);
 		
 		btnBorrar.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eliminarPeliculaBd(model, peliculaSeleccionada);
+				eliminarPeliculaBd(model, list.getSelectedValue().getTitulo());
 			}
 		});
 		
 		contentPane.add(btnBorrar);
-		this.setLocationRelativeTo(null);
-		setResizable(false);
-
-		textField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					btnNewButton.doClick();
-				}
-			}
-		});
+		
+		JLabel lblDirector = new JLabel("Director:");
+		lblDirector.setBounds(420, 112, 51, 20);
+		contentPane.add(lblDirector);
+		
+		JLabel lblGnero = new JLabel("Género:");
+		lblGnero.setBounds(420, 142, 51, 20);
+		contentPane.add(lblGnero);
+		
+		JLabel lblSinopsis = new JLabel("Sinopsis:");
+		lblSinopsis.setBounds(420, 172, 66, 20);
+		contentPane.add(lblSinopsis);
+		
+		JLabel lblEstado = new JLabel("Estado:");
+		lblEstado.setBounds(420, 257, 51, 20);
+		contentPane.add(lblEstado);
+		
+		JLabel lblPrecio = new JLabel("Precio:");
+		lblPrecio.setBounds(420, 287, 51, 20);
+		contentPane.add(lblPrecio);
+		
+		JLabel lblDuracin = new JLabel("Duración:");
+		lblDuracin.setBounds(420, 317, 66, 20);
+		contentPane.add(lblDuracin);
+		
+		
 
 	}
 	public void eliminarPeliculaBd(ListModel<Pelicula> listModel, String selectedFilm) {
@@ -153,20 +191,29 @@ public class BuscadorAdmin extends JFrame {
         System.out.println("Eliminando película de la BD");
         
         try {
-
-            Query<Pelicula> q = pm.newQuery("SELECT FROM " + Pelicula.class.getName().toLowerCase() + " WHERE titulo== '" + selectedFilm + "'");
+            Query<Pelicula> q = pm.newQuery("SELECT FROM " + Pelicula.class.getName() + " WHERE titulo== '" + selectedFilm + "'");
             List<Pelicula> listaPelicula = q.executeList();
             q.deletePersistentAll(listaPelicula);
 
             System.out.println("Eliminada película de la Base de Datos");
-
         } finally {
             pm.close();
-
             BuscadorAdmin ba = new BuscadorAdmin();
             ba.setVisible(true);
             dispose();
         }
     }
 	
+	//añadir resto de jlabel
+	public void cargarDatos(JLabel titulo, JLabel director, JLabel genero, JLabel sinopsis, JLabel estado,
+			JLabel precio, JLabel duracion, JList<Pelicula> listaPelis, int seleccionado) {
+		//double precio = Double.parseDouble(precio.getText().toString());
+		titulo.setText(listaPelis.getModel().getElementAt(seleccionado).getTitulo());
+		director.setText(listaPelis.getModel().getElementAt(seleccionado).getDirector());
+		genero.setText(listaPelis.getModel().getElementAt(seleccionado).getGenero());
+		sinopsis.setText(listaPelis.getModel().getElementAt(seleccionado).getSinopsis());
+		estado.setText(listaPelis.getModel().getElementAt(seleccionado).getEstado());
+		//precio.setText(listaPelis.getModel().getElementAt(seleccionado).getPrecio());
+		//duracion.setText(listaPelis.getModel().getElementAt(seleccionado).getDuracion());
+	}
 }

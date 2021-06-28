@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PeliculaTest {
-
+//	TESTS DE INTEGRACION CON CODIGO DE BASE DE DATOS
 	private Pelicula p;
 	
 	@Before

@@ -105,7 +105,6 @@ public class Pelicula {
 
 	@Override
 	public String toString() {
-		return "Libro [id=" + id + ", titulo=" + titulo + ", director=" + director + ", genero=" + genero + ", sinopsis="
-				+ sinopsis + ", estado=" + estado + ", precio=" + precio + ", duracion=" + duracion + "]";
+		return titulo;
 	}	
 }

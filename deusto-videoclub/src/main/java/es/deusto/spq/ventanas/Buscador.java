@@ -1,6 +1,8 @@
 package es.deusto.spq.ventanas;
 
 import java.awt.EventQueue;
+import java.awt.Font;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -19,7 +21,6 @@ import javax.swing.JButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
-import javax.swing.JScrollPane;
 import javax.swing.JList;
 
 public class Buscador extends JFrame {
@@ -32,7 +33,6 @@ public class Buscador extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private JScrollPane scrollPane = new JScrollPane();
 	private JList<Pelicula> list;
 
 	/**
@@ -71,8 +71,10 @@ public class Buscador extends JFrame {
 		for (Pelicula pelicula : pelis) {
 			model.addElement(pelicula);
 		}
-		list.setBounds(51, 63, 679, 322);
 		list = new JList<Pelicula>(model);
+		list.setBounds(51, 63, 679, 322);
+		list.setFont(new Font("Tahoma", Font.BOLD, 10));
+		contentPane.add(list);
 		
 		
 		JLabel lblNewLabel = new JLabel("Título:");
@@ -89,11 +91,6 @@ public class Buscador extends JFrame {
 		contentPane.add(btnNewButton);
 
 		
-		scrollPane.setBounds(51, 63, 679, 322);
-		contentPane.add(scrollPane);
-		
-		
-		scrollPane.setViewportView(list);
 		this.setLocationRelativeTo(null);
 		setResizable(false);
 

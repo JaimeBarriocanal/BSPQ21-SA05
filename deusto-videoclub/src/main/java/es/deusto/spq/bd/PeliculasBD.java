@@ -23,7 +23,7 @@ public class PeliculasBD {
         PersistenceManager pm = pmf.getPersistenceManager();
 
         Query<Pelicula> q = pm.newQuery(Pelicula.class);
-        q.setOrdering("name desc");
+        q.setOrdering("titulo desc");
 
         List<Pelicula> peliculas = q.executeList();
 
