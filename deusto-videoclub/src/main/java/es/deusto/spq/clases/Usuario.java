@@ -4,24 +4,22 @@ import javax.jdo.annotations.*;
 import javax.jdo.annotations.PersistenceCapable;
 
 @PersistenceCapable
-@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
 public class Usuario {
 	private String id;
+	@PrimaryKey
 	private String username;
 	private String password;
 	private String email;
-	private String direccion;
 	private int cp;
 	private boolean administrador;
 
 	
 	public Usuario() {
 	}
-	public Usuario(String username, String password, String email, String direccion, int cp) {
+	public Usuario(String username, String password, String email, int cp) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.direccion = direccion;
 		this.cp = cp;
 		this.administrador = false;
 	}
@@ -32,7 +30,6 @@ public class Usuario {
 		this.email = email; 
 		this.administrador = false;
 		this.cp = 0;
-		this.direccion = "Calle";
 	}
 	
 	public boolean getAdministrador() {
@@ -75,18 +72,9 @@ public class Usuario {
 		this.cp = cp;
 	}
 
-	public String getAddress() {
-		return direccion;
-	}
-
-	public void setAddress(String address) {
-		this.direccion = address;
-	}
-
 	@Override
 	public String toString() {
-		return "Usuario [id=" + this.id + ", Username=" + this.username + ", Email=" + email + ", CP=" + cp + ", Direccion="
-				+ direccion + "]";
+		return "Usuario [id=" + this.id + ", Username=" + this.username + ", Email=" + email + ", CP=" + cp + "]";
 	}
 	
 }

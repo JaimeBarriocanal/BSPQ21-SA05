@@ -1,14 +1,7 @@
 package es.deusto.spq.ventanas;
 
 import java.awt.EventQueue;
-import es.deusto.*;
 import es.deusto.spq.clases.Usuario;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.client.Invocation;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,9 +15,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.logging.Level;
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Transaction;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
@@ -36,7 +32,6 @@ public class NuevoUsuario extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;	
 	
-	private WebTarget webTarget;
 	private JPanel contentPane;
 	public final JTextField textField;
 	public final JPasswordField passwordField;
@@ -99,49 +94,7 @@ public class NuevoUsuario extends JFrame {
 		btnCrearNuevoUsuario.setBounds(291, 417, 176, 27);
 		btnCrearNuevoUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Usuario user = new Usuario();
-				String usuario = new String(textField.getText());
-				String mail = new String(textField_1.getText());
-				int cpos = Integer.parseInt(textField_2.getText());
-				String pass = new String(passwordField.getPassword());
-				String passCon = new String(passwordField_1.getPassword());
-
-				if (usuario.equals("") || mail.equals("") || textField_2.getText().equals("") || pass.equals("") || passCon.equals("") ) {
-					JOptionPane.showMessageDialog(null, "Rellene todos los campos");
-				} else {
-					if (pass.equals(passCon)) {
-						
-						try {
-							WebTarget videoclubWebTarget = webTarget.path("/registro");
-							Invocation.Builder invocationBuilder = videoclubWebTarget.request(MediaType.APPLICATION_JSON);
-							
-							user.setUsername(usuario);
-							user.setPassword(pass);
-							user.setEmail(mail);
-							user.setCP(cpos);
-							
-							Response response = invocationBuilder.post(Entity.entity(user, MediaType.APPLICATION_JSON));
-							
-							if (response.getStatus() == Status.OK.getStatusCode()) {
-								new Buscador();
-								NuevoUsuario.this.setVisible(false);
-							} else {
-								String readResponse = response.readEntity(String.class);
-								throw new Exception(readResponse);
-							}
-							
-							JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
-							
-						}catch(jakarta.ws.rs.ProcessingException conExc) {
-							String errorMessage = "No se ha podido establecer conexion con el servidor";
-							JOptionPane.showMessageDialog(contentPane, errorMessage, "Error de conexion", JOptionPane.ERROR_MESSAGE);
-						}catch(Exception exc) {
-							JOptionPane.showMessageDialog(contentPane, exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-						}
-					} else {
-						JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
-					}
-				}
+				addUsuario(textField, textField_1, textField_2, passwordField, passwordField_1);
 			}
 		});
 		contentPane.add(btnCrearNuevoUsuario);
@@ -209,4 +162,40 @@ public class NuevoUsuario extends JFrame {
 
 		contentPane.add(textField_2);
 	}
+	
+	public void addUsuario(JTextField nombre, JTextField email, JTextField cp, JPasswordField contra, JPasswordField repcontra) {
+
+		if (nombre.getText().equals("") || email.getText().equals("") || cp.getText().equals("")
+				|| contra.getText().equals("") || repcontra.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Rellene todos los campos");
+//		}else if(contra.getText().toString() != repcontra.getText().toString()) {
+//			JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+		}else {
+			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+
+			PersistenceManager pm = pmf.getPersistenceManager();
+			Transaction tx = pm.currentTransaction();
+			int codp = Integer.parseInt(cp.getText().toString());
+			System.out.println("Añadiendo usuario en la BD");
+			try {
+				tx.begin();
+				Usuario usuario = new Usuario(nombre.getText().toString(), contra.getText().toString(), email.getText().toString(), codp);
+				pm.makePersistent(usuario);
+
+				tx.commit();
+				System.out.println("Añadido un nuevo usuario a la Base de Datos");
+
+			} finally {
+				if (tx.isActive()) {
+					tx.rollback();
+				}
+				pm.close();
+
+			}
+			Buscador b = new Buscador();
+			b.setVisible(true);
+			dispose();
+		}
+	}
+	
 }

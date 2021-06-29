@@ -3,12 +3,12 @@ package es.deusto.spq.clases;
 import javax.jdo.annotations.*;
 
 @PersistenceCapable
-@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
 public class Pelicula {
 
 	private static int contador = 1;
 	
 	private int id;
+	@PrimaryKey
 	private String titulo;
 	private String director;
 	private String genero;
@@ -105,7 +105,6 @@ public class Pelicula {
 
 	@Override
 	public String toString() {
-		return "Libro [id=" + id + ", titulo=" + titulo + ", director=" + director + ", genero=" + genero + ", sinopsis="
-				+ sinopsis + ", estado=" + estado + ", precio=" + precio + ", duracion=" + duracion + "]";
+		return titulo;
 	}	
 }
