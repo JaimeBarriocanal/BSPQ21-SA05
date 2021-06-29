@@ -35,6 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JList;
+import javax.swing.JTextPane;
 
 public class BuscadorAdmin extends JFrame {
 
@@ -85,7 +86,7 @@ public class BuscadorAdmin extends JFrame {
 			model.addElement(pelicula);
 		}
 		list = new JList<Pelicula>(model);
-		list.setBounds(51, 63, 332, 322);
+		list.setBounds(51, 63, 333, 322);
 		list.setFont(new Font("Tahoma", Font.BOLD, 10));
 		contentPane.add(list);
 		
@@ -103,10 +104,6 @@ public class BuscadorAdmin extends JFrame {
 		lblNewLabel_3.setBounds(521, 142, 159, 20);
 		contentPane.add(lblNewLabel_3);
 		
-		final JLabel lblNewLabel_4 = new JLabel("");
-		lblNewLabel_4.setBounds(521, 176, 249, 72);
-		contentPane.add(lblNewLabel_4);
-		
 		final JLabel lblNewLabel_5 = new JLabel("");
 		lblNewLabel_5.setBounds(521, 258, 159, 20);
 		contentPane.add(lblNewLabel_5);
@@ -119,10 +116,16 @@ public class BuscadorAdmin extends JFrame {
 		lblNewLabel_7.setBounds(521, 321, 159, 20);
 		contentPane.add(lblNewLabel_7);
 		
+		final JTextPane textPane = new JTextPane();
+		textPane.setFont(new Font("Tahoma", Font.BOLD, 11));
+		textPane.setBounds(521, 172, 237, 85);
+		textPane.setBackground(getBackground());
+		contentPane.add(textPane);
+		
 		list.addListSelectionListener(new ListSelectionListener() {		
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				cargarDatos(lblNewLabel_1, lblNewLabel_2, lblNewLabel_3, lblNewLabel_4,
+				cargarDatos(lblNewLabel_1, lblNewLabel_2, lblNewLabel_3, textPane,
 						lblNewLabel_5, lblNewLabel_6, lblNewLabel_7, list, list.getSelectedIndex());		//añadir jlabel
 			}
 		});
@@ -183,8 +186,11 @@ public class BuscadorAdmin extends JFrame {
 		contentPane.add(lblDuracin);
 		
 		
+		
+		
 
 	}
+	
 	public void eliminarPeliculaBd(ListModel<Pelicula> listModel, String selectedFilm) {
         PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
         PersistenceManager pm = pmf.getPersistenceManager();
@@ -205,15 +211,14 @@ public class BuscadorAdmin extends JFrame {
     }
 	
 	//añadir resto de jlabel
-	public void cargarDatos(JLabel titulo, JLabel director, JLabel genero, JLabel sinopsis, JLabel estado,
+	public void cargarDatos(JLabel titulo, JLabel director, JLabel genero, JTextPane sinopsis, JLabel estado,
 			JLabel precio, JLabel duracion, JList<Pelicula> listaPelis, int seleccionado) {
-		//double precio = Double.parseDouble(precio.getText().toString());
 		titulo.setText(listaPelis.getModel().getElementAt(seleccionado).getTitulo());
 		director.setText(listaPelis.getModel().getElementAt(seleccionado).getDirector());
 		genero.setText(listaPelis.getModel().getElementAt(seleccionado).getGenero());
 		sinopsis.setText(listaPelis.getModel().getElementAt(seleccionado).getSinopsis());
 		estado.setText(listaPelis.getModel().getElementAt(seleccionado).getEstado());
-		//precio.setText(listaPelis.getModel().getElementAt(seleccionado).getPrecio());
-		//duracion.setText(listaPelis.getModel().getElementAt(seleccionado).getDuracion());
+		precio.setText(listaPelis.getModel().getElementAt(seleccionado).getPrecio()+"");
+		duracion.setText(listaPelis.getModel().getElementAt(seleccionado).getDuracion()+"");
 	}
 }
