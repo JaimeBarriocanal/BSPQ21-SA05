@@ -31,6 +31,7 @@ public class Usuario {
 		this.administrador = false;
 		this.cp = 0;
 	}
+
 	
 	public boolean getAdministrador() {
 		return administrador;
