@@ -2,12 +2,10 @@ package es.deusto.spq.bd;
 
 import java.util.List;
 import java.util.logging.*;
-
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
-
 import es.deusto.spq.clases.Usuario;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

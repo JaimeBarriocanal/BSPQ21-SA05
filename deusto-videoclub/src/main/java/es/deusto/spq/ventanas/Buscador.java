@@ -2,22 +2,18 @@ package es.deusto.spq.ventanas;
 
 import java.awt.EventQueue;
 import java.awt.Font;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import es.deusto.spq.clases.Pelicula;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
-
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ListModel;
 import javax.jdo.JDOHelper;
@@ -27,11 +23,8 @@ import javax.jdo.Query;
 import javax.jdo.Transaction;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -68,7 +61,7 @@ public class Buscador extends JFrame {
 	 * Create the frame.
 	 */
 	public Buscador() {
-		this.setTitle("Búsqueda");
+		this.setTitle("Videoclub");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 799, 491);
 		contentPane = new JPanel();
