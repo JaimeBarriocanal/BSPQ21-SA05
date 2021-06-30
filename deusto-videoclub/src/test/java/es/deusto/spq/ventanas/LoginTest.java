@@ -45,8 +45,8 @@ public class LoginTest {
 
 	@Test
 	public void testAcceder() {
-		txtUsername1.setText("gorka");
-		txtPassword1.setText("gorka");
+		txtUsername1.setText("user0");
+		txtPassword1.setText("1234");
 
 		txtUsername2.setText("admin");
 		txtPassword2.setText("admin");
