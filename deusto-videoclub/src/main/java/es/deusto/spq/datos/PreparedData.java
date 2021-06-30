@@ -19,6 +19,16 @@ public class PreparedData {
     public static Usuario admin = new Usuario("admin", "1234", "admin@gmail.com", 48000);
     
     public static Pelicula peli0 = new Pelicula("Prueba", "yo", "acción", "Gran pelea", "alquilada", 2, 180);
+    public static Pelicula peli1 = new Pelicula("Malditos Bastardos", "Quentin Tarantino", "acción", "Durante la II Guerra Mundial, un pelotón de soldados judíoamericanos conocidos como «Los Bastardos» son seleccionados para sembrar el terror a lo largo y ancho del Tercer Reich. Su misión: asesinar tantos nazis como puedan. Sus métodos: todo está permitido.", "alquilada", 4, 153);
+    public static Pelicula peli2 = new Pelicula("Avengers: Endgame", "Hermanos Russo", "Ciencia Ficción", "Capitán América, Thor, la Viuda Negra, Hulk, Máquina de guerra, Rocket, Okoye y M'Baku se quedaron en Wakanda, el país de origen de Black Panther, después de que sus compañeros se evaporaran por el \"chasquido\" de Thanos. Se trata del chasquido de dedos mortal del supervillano que acabó con la mitad de toda la vida", "disponible", 6, 182);
+    public static Pelicula peli3 = new Pelicula("Resacón en Las Vegas", "Todd Phillips", "Comedia", "Tres amigos se despiertan tras una loquísima despedida de soltero, pero no consiguen encontrar a su amigo, el que se suponía que se iba a casar", "disponible", 3, 99);
+    public static Pelicula peli4 = new Pelicula("Forrest Gump", "Robert Zemeckis", "Comedia", "Forrest Gump, un hombre amable de corta inteligencia será testigo de casi todos los sucesos cruciales de su país durante los años 60 y 70", "alquilada", 3, 143);
+    public static Pelicula peli5 = new Pelicula("El Lobo de Wall Street", "Martin Scorsese", "Comedia", "Martin Scorsese nos narra la lujosa vida del corredor de bolsa de Wall Street, Jordan Belfort, cuya vertiginosa carrera tuvo como final una prisión federal", "alquilada", 5, 179);
+    public static Pelicula peli6 = new Pelicula("El precio del poder", "Brian de Palma", "Drama", "Durante su despiadado ascenso como magnate de la droga en Miami, un gánster cubano cae en la adicción, la obsesión y la violencia, con unas consecuencias espantosas", "disponible", 4, 169);
+    public static Pelicula peli7 = new Pelicula("Django Desencadenado", "Quentin Tarantino", "Western", "Django, un esclavo liberado, recorre los Estados Unidos acompañado de un cazarrecompensas alemán para liberar a su mujer del sádico dueño de una plantación", "disponible", 5, 165);
+    public static Pelicula peli8 = new Pelicula("Seven", "David Fincher", "Drama", "Un curtido detective de homicidios y su nuevo compañero afrontan la caza de un asesino cuyos horrendos crímenes se inspiran en los siete pecados capitales", "alquilada", 4, 126);
+    public static Pelicula peli9 = new Pelicula("Misión imposible: Nación Secreta", "Christopher McQuarrie", "Acción", "Tras la disolución de la FMI, Ethan Hunt y su equipo inician una guerra contra el Sindicato, un grupo de espías renegados que ansía a destrucción mundial", "alquilada", 2, 180);
+   
     
     
     public static void main(String[] args) {
@@ -27,6 +37,15 @@ public class PreparedData {
         	pm.makePersistent(user0);
         	pm.makePersistent(admin);
         	pm.makePersistent(peli0);
+        	pm.makePersistent(peli1);
+        	pm.makePersistent(peli2);
+        	pm.makePersistent(peli3);
+        	pm.makePersistent(peli4);
+        	pm.makePersistent(peli5);
+        	pm.makePersistent(peli6);
+        	pm.makePersistent(peli7);
+        	pm.makePersistent(peli8);
+        	pm.makePersistent(peli9);
         	tx.commit();
 		} finally {
 			if(tx.isActive()) {
