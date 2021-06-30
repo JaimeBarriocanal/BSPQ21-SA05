@@ -67,7 +67,7 @@ public class NuevoUsuarioTest {
 		txtPassword22.setText("");
 		
 		nu.addUsuario(txtUsername1, txtEmail1, txtCP1, txtPassword11, txtPassword12);
-		nu.addUsuario(txtUsername1, txtEmail1, txtCP1, txtPassword11, txtPassword12);
+		nu.addUsuario(txtUsername2, txtEmail2, txtCP2, txtPassword21, txtPassword22);
 		
 	}
 
