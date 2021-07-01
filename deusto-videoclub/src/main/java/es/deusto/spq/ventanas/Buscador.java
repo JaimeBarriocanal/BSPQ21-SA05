@@ -129,7 +129,7 @@ public class Buscador extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				peli = list.getSelectedValue();
 				if(peli.getEstado().equals("Alquilada")) {
-					JOptionPane.showMessageDialog(null, "La película ya está alquilada");
+					//JOptionPane.showMessageDialog(null, "La película ya está alquilada");
 				}else {
 					eliminarPeliculaBd(model, peli.getTitulo());
 					peli.setEstado("Alquilada");
@@ -138,7 +138,7 @@ public class Buscador extends JFrame {
 					Buscador b = new Buscador();
 					b.setVisible(true);
 					dispose();
-					JOptionPane.showMessageDialog(null, "Película alquilada");
+					//JOptionPane.showMessageDialog(null, "Película alquilada");
 				}
 			}
 		});
@@ -180,7 +180,7 @@ public class Buscador extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				peli = list.getSelectedValue();
 				if(peli.getEstado().equals("Disponible")) {
-					JOptionPane.showMessageDialog(null, "La película ya está disponible");
+					//JOptionPane.showMessageDialog(null, "La película ya está disponible");
 				}else {
 					eliminarPeliculaBd(model, peli.getTitulo());
 					peli.setEstado("Disponible");
@@ -189,7 +189,7 @@ public class Buscador extends JFrame {
 					Buscador b = new Buscador();
 					b.setVisible(true);
 					dispose();
-					JOptionPane.showMessageDialog(null, "Película devuelta");
+					//JOptionPane.showMessageDialog(null, "Película devuelta");
 				}			
 			}
 		});

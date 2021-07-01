@@ -164,9 +164,7 @@ public class NuevoUsuario extends JFrame {
 
 		if (nombre.getText().equals("") || email.getText().equals("") || cp.getText().equals("")
 				|| contra.getText().equals("") || repcontra.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "Rellene todos los campos");
-//		}else if(contra.getText().toString() != repcontra.getText().toString()) {
-//			JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+			//JOptionPane.showMessageDialog(null, "Rellene todos los campos");
 		}else {
 			PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 

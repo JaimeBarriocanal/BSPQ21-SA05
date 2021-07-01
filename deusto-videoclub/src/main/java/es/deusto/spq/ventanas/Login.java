@@ -119,7 +119,7 @@ public class Login extends JFrame {
 
 	public void acceder(JTextField nombre, JPasswordField contra) {
 		if (nombre.getText().equals("") || contra.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "Debe rellenar todos los datos");
+			//JOptionPane.showMessageDialog(null, "Debe rellenar todos los datos");
 		}
 		if (nombre.getText().equals("admin")) {
 			BuscadorAdmin ba = new BuscadorAdmin();
