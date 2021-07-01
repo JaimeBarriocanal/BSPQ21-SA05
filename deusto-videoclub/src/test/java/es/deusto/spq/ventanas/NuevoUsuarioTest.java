@@ -5,10 +5,16 @@ import static org.junit.Assert.*;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.deusto.spq.clases.Main;
 import es.deusto.spq.clases.Usuario;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
 
 public class NuevoUsuarioTest {
 	
@@ -28,6 +34,10 @@ public class NuevoUsuarioTest {
 	NuevoUsuario nu;
 
 	
+	private HttpServer server;
+	private WebTarget appTarget;
+	private WebTarget nuevoTarget;
+	
 	@Before
 	public void setup(){
 		txtUsername1 = new JTextField();
@@ -42,11 +52,19 @@ public class NuevoUsuarioTest {
 		txtPassword21 = new JPasswordField();
 		txtPassword22 = new JPasswordField();
 
-		
-	
 		nu = new NuevoUsuario();
+		
+		server = Main.startServer();
+		Client cliente = ClientBuilder.newClient();
+		appTarget = cliente.target("http://localhost:8080/myapp");
+		nuevoTarget = appTarget.path("usuarios");
 	}
 
+	@After
+	public void tearDown() throws Exception {
+		server.stop();
+	}
+	
 	@Test
 	public void testMain() {
 		NuevoUsuario.main(new String[0]);
@@ -54,8 +72,8 @@ public class NuevoUsuarioTest {
 
 	@Test
 	public void testAddUsuario() {
-		txtUsername1.setText("gorka");
-		txtEmail1.setText("gorka@gmail.com");
+		txtUsername1.setText("juan");
+		txtEmail1.setText("juan@gmail.com");
 		txtCP1.setText("12");
 		txtPassword11.setText("pass");
 		txtPassword12.setText("pass");
