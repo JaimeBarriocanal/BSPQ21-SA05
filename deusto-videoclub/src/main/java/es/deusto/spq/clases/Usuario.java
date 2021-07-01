@@ -1,3 +1,6 @@
+/** \file 
+ * Breve descripción de es.deusto.spq.clases.Usuario.java. July 1, 2021
+ */
 package es.deusto.spq.clases;
 
 import javax.jdo.annotations.*;
@@ -36,7 +39,11 @@ public class Usuario {
 	public boolean getAdministrador() {
 		return administrador;
 	}
-	
+	/**
+	 * 
+	 * Establecer titulo de pelicula
+	 *
+	 */
 	public void setAdministrador(boolean admin) {
 		this.administrador = admin;
 	}

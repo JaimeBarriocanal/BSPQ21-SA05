@@ -1,3 +1,6 @@
+/** \file 
+ * Breve descripción de es.deusto.spq.clases.Main.java. July 1, 2021
+ */
 package es.deusto.spq.clases;
 
 import java.io.IOException;
@@ -8,7 +11,11 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-
+/**
+ * 
+ * Main class
+ *
+ */
 public class Main {
     // Base URI the Grizzly HTTP server will listen on
     public static final String BASE_URI = "http://localhost:8080/myapp/";

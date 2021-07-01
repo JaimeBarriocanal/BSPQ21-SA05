@@ -1,3 +1,6 @@
+/** \file 
+ * Breve descripción de es.deusto.spq.ventanas.CrearPelicula.java. July 1, 2021
+ */
 package es.deusto.spq.ventanas;
 
 import java.awt.EventQueue;

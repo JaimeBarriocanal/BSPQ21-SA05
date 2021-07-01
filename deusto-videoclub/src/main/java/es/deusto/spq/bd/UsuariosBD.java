@@ -1,3 +1,6 @@
+/** \file 
+ * Breve descripción de es.deusto.spq.bd.UsuariosBD.java. July 1, 2021
+ */
 package es.deusto.spq.bd;
 
 import java.util.List;
@@ -10,9 +13,19 @@ import es.deusto.spq.clases.Usuario;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
+/**
+ * 
+ * Clase para obtener los usuarios de la base de datos
+ *
+ */
 @Path("usuarios")
 public class UsuariosBD {
 	public final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	/**
+	 * 
+	 * Método de obtener usuarios
+	 *
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Usuario> getUsuarios() {
@@ -30,6 +43,11 @@ public class UsuariosBD {
 		
 	}
 	
+	/**
+	 * 
+	 * Método de comprobar usuarios
+	 *
+	 */
 	public boolean comprobarUsuarios(String nombre, String contra) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
         PersistenceManager pm = pmf.getPersistenceManager();

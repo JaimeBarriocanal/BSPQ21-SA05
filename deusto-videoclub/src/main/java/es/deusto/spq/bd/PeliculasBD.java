@@ -1,3 +1,6 @@
+/** \file 
+ * Breve descripción de es.deusto.spq.bd.PeliculasBD.java. July 1, 2021
+ */
 package es.deusto.spq.bd;
 
 import java.util.List;
@@ -11,9 +14,18 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+/**
+ * 
+ * Clase para obtener las películas de la base de datos
+ *
+ */
 @Path("peliculas")
 public class PeliculasBD {
-	
+	/**
+	 * 
+	 * Método para obtener peliculas
+	 *
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Pelicula> getPeliculas() {

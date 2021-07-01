@@ -1,3 +1,6 @@
+/** \file 
+ * Breve descripción de es.deusto.spq.datos.PreparedData.java. July 1, 2021
+ */
 package es.deusto.spq.datos;
 
 import javax.jdo.JDOHelper;
