@@ -15,12 +15,18 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+/**
+ * 
+ * Clase base para crear peliculas
+ *
+ */
+@PersistenceCapable
 public class CrearPelicula extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -151,7 +157,11 @@ public class CrearPelicula extends JFrame {
 		});
 
 	}
-
+	/**
+	 * 
+	 * Método que añade peliculas
+	 *
+	 */
 	public void addPelicula(JTextField titulo, JTextField director, JTextField genero, JTextField sinopsis,
 			JTextField estado, JTextField precio, JTextField duracion) {
 

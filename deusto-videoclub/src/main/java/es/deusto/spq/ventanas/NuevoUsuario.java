@@ -21,10 +21,16 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
-
+/**
+ * 
+ * Clase base de nuevo usuario
+ *
+ */
+@PersistenceCapable
 public class NuevoUsuario extends JFrame {
 
 	/**
@@ -162,6 +168,11 @@ public class NuevoUsuario extends JFrame {
 
 		contentPane.add(textField_2);
 	}
+	/**
+	 * 
+	 * Metodo para añadir usuarios
+	 *
+	 */
 	
 	public void addUsuario(JTextField nombre, JTextField email, JTextField cp, JPasswordField contra, JPasswordField repcontra) {
 

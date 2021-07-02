@@ -22,6 +22,7 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 
@@ -31,7 +32,12 @@ import java.util.List;
 
 import javax.swing.JList;
 import javax.swing.JTextPane;
-
+/**
+ * 
+ * Clase base de BusacdorAdmin
+ *
+ */
+@PersistenceCapable
 public class BuscadorAdmin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -185,7 +191,11 @@ public class BuscadorAdmin extends JFrame {
 		
 
 	}
-	
+	/**
+	 * 
+	 * Método que elimina peliculas de la BD
+	 *
+	 */
 	public void eliminarPeliculaBd(ListModel<Pelicula> listModel, String selectedFilm) {
         PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
         PersistenceManager pm = pmf.getPersistenceManager();
@@ -205,7 +215,11 @@ public class BuscadorAdmin extends JFrame {
         }
     }
 	
-	//añadir resto de jlabel
+	/**
+	 * 
+	 * Método que carga datos
+	 *
+	 */
 	public void cargarDatos(JLabel titulo, JLabel director, JLabel genero, JTextPane sinopsis, JLabel estado,
 			JLabel precio, JLabel duracion, JList<Pelicula> listaPelis, int seleccionado) {
 		titulo.setText(listaPelis.getModel().getElementAt(seleccionado).getTitulo());

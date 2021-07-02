@@ -18,12 +18,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+/**
+ * 
+ * Clase base de login
+ *
+ */
+@PersistenceCapable
 public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -119,7 +125,11 @@ public class Login extends JFrame {
 		contentPane.add(passwordField);
 
 	}
-
+	/**
+	 * 
+	 * Metodo Para acceder
+	 *
+	 */
 	public void acceder(JTextField nombre, JPasswordField contra) {
 		if (nombre.getText().equals("") || contra.getText().equals("")) {
 			//JOptionPane.showMessageDialog(null, "Debe rellenar todos los datos");

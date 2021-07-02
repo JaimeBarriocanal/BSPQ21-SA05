@@ -24,6 +24,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
@@ -31,6 +32,13 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+
+/**
+ * 
+ * Clase base de Buscador
+ *
+ */
+@PersistenceCapable
 
 public class Buscador extends JFrame {
 
@@ -202,7 +210,12 @@ public class Buscador extends JFrame {
 		setResizable(false);
 
 	}
-
+	/**
+	 * 
+	 * Método que carga datos
+	 *
+	 */
+	
 	public void cargarDatos(JLabel titulo, JLabel director, JLabel genero, JTextPane sinopsis, JLabel estado,
 			JLabel precio, JLabel duracion, JList<Pelicula> listaPelis, int seleccionado) {
 		titulo.setText(listaPelis.getModel().getElementAt(seleccionado).getTitulo());
@@ -213,7 +226,11 @@ public class Buscador extends JFrame {
 		precio.setText(listaPelis.getModel().getElementAt(seleccionado).getPrecio() + "");
 		duracion.setText(listaPelis.getModel().getElementAt(seleccionado).getDuracion() + "");
 	}
-
+	/**
+	 * 
+	 * Método que elimina peliculas de la BD
+	 *
+	 */
 	public void eliminarPeliculaBd(ListModel<Pelicula> listModel, String selectedFilm) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -226,6 +243,11 @@ public class Buscador extends JFrame {
 			pm.close();
 		}
 	}
+	/**
+	 * 
+	 * Método que añade Peliculas
+	 *
+	 */
 
 	public void addPelicula(ListModel<Pelicula> listModel, Pelicula selectedFilm) {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");

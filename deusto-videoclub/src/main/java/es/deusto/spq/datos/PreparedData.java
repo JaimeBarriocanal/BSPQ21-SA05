@@ -4,13 +4,21 @@
 package es.deusto.spq.datos;
 
 import javax.jdo.JDOHelper;
+
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
+import javax.jdo.annotations.PersistenceCapable;
 
 import es.deusto.spq.clases.Pelicula;
 import es.deusto.spq.clases.Usuario;
 
+/**
+ * 
+ * Clase datos preparados
+ *
+ */
+@PersistenceCapable
 public class PreparedData {
 
 	public static PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
