@@ -30,6 +30,14 @@ Lanzamos el cliente:
 
     mvn exec:java -Pcliente
     
+Comprobar tests:
+
+    mvn test
+
 
 Para hacer Login en la parte de usuario utilizamos: "user0" y de contraseña "1234".
+
 Para hacer Login en la parte de administrador: "admin" y "1234".
+
+
+Desde usuario se pueden alquilar y devolver películas. Desde el admin se pueden crear y eliminar películas.
