@@ -72,8 +72,8 @@ public class NuevoUsuarioTest {
 
 	@Test
 	public void testAddUsuario() {
-		txtUsername1.setText("juan");
-		txtEmail1.setText("juan@gmail.com");
+		txtUsername1.setText("julio");	//Cambiar nombre si da error en los tests
+		txtEmail1.setText("julio@gmail.com");
 		txtCP1.setText("12");
 		txtPassword11.setText("pass");
 		txtPassword12.setText("pass");
